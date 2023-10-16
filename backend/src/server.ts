@@ -2,6 +2,7 @@ import FastifyCors from "@fastify/cors";
 import fastify, { FastifyInstance } from "fastify";
 import { AppConfig } from "./types/appConfig";
 import { establishConnection } from "./plugins/mongodb";
+import { CatRouter } from "./router/cat-router";
 export const serverOf: () => FastifyInstance = () => {
     const server: FastifyInstance = fastify({
         logger: {
@@ -16,6 +17,8 @@ export const serverOf: () => FastifyInstance = () => {
     server.get("/ping", async (request, reply) => {
         return reply.status(200).send({ msg: "pong" });
     });
+
+    server.register(CatRouter, { prefix: "/api" });
 
     return server;
 };
